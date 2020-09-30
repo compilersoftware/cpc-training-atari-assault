@@ -17,42 +17,11 @@
 //------------------------------------------------------------------------------
 
 #include <cpctelera.h>
-#include "man/entity.h"
-#include "sys/generator.h"
-#include "sys/physics.h"
-#include "sys/render.h"
-
-void _slowDown(u8 n)
-{
-    do {
-        // cpct_waitHalts(), usada en los vídeos, no existe en CPCTelera
-        // Implementamos un bucle vacío para ralentizar
-        for (u16 i = 0; i < 500; i++) {
-        }
-        cpct_waitVSYNC();
-    } while (n--);
-}
+#include "man/game.h"
 
 void main(void)
 {
     cpct_disableFirmware();
-
-    // Inicializar sistemas
-    sys_render_init();
-
-    // Inicializar manager
-    man_entity_init();
- 
-    while(1) {
-
-        // Actualizar sistemas
-        sys_physics_update();
-        sys_generator_update();
-        sys_render_update();
-
-        // Actualizar manager
-        man_entity_update();
-
-        cpct_waitVSYNC;
-    }
+    man_game_init();
+    man_game_play();
 }

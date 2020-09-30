@@ -5,23 +5,23 @@
 /* Constantes */
 
 // Tipos de entidades (en formato mapa de bits)
-#define entityTypeInvalid 0x00
-#define entityTypeStar 0x01
-#define entityTypeDead 0x80
+#define entityTypeInvalid 0x00      // Inválida
+#define entityTypeRenderable 0x01   // Dibujable
+#define entityTypeMovable 0x02      // Movible
+#define entityTypeControllable 0x04 // Controlable por el jugador
+#define entityTypeDead 0x80 
 #define entityTypeDefault 0x7F
 
-#define MAX_ENTITIES 40
+#define MAX_ENTITIES 12
 
 /* Estructuras de datos */
 
 typedef struct te {
     u8 type;
     u8 x, y;
-    i8 vx;
-    u8 colour;
-
-    // Atributos dedicados a optimizaciones
-    u8* prevPtr; // Puntero a la posición previa en pantalla
+    u8 width, height;
+    i8 vx, vy;
+    u8* sprite;
 } Entity_t;
 
 /* Interfaz pública */
