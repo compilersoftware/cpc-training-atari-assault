@@ -2,6 +2,7 @@
 #include "man/entity.h"
 #include "sys/physics.h"
 #include "sys/render.h"
+#include "sys/ai.h"
 #include "sprites/mothership.h"
 #include "sprites/playership.h"
 
@@ -17,11 +18,11 @@ const u8 sprite[] = {
 };
 
 const Entity_t mothershipTemplate = {
-    entityTypeMovable | entityTypeRenderable,   // type
-    38, 10,                                     // x, y
-    SPRITEMOTHERSHIP_W,  SPRITEMOTHERSHIP_H,    // width, height
-    -1,  0,                                     // vx, vy
-    spriteMothership                            // sprite
+    entityTypeMovable | entityTypeRenderable | entityTypeAI,    // type
+    38, 10,                                                     // x, y
+    SPRITEMOTHERSHIP_W,  SPRITEMOTHERSHIP_H,                    // width, height
+    -1,  0,                                                     // vx, vy
+    spriteMothership                                            // sprite
 };
 
 const Entity_t scoreboardPlayerTemplate = {
@@ -45,13 +46,8 @@ const Entity_t playerTemplate = {
 
 void m_man_game_slowDown(u8 n)
 {
-    do {
-        // cpct_waitHalts(), usada en los vídeos, no existe en CPCTelera
-        // Implementamos un bucle vacío para ralentizar
-        for (u16 i = 0; i < 500; i++) {
-        }
-        cpct_waitVSYNC();
-    } while (n--);
+    cpct_waitHalts(n);
+    cpct_waitVSYNC();
 }
 
 Entity_t* m_man_game_createTemplateEntity(const Entity_t* template)
@@ -100,12 +96,14 @@ void man_game_play()
     while(1) {
 
         // Actualizar sistemas
+        sys_ai_update();
         sys_physics_update();
         sys_render_update();
 
         // Actualizar manager
         man_entity_update();
 
+        m_man_game_slowDown(4);
         cpct_waitVSYNC;
     }
 }

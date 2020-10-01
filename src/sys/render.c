@@ -28,5 +28,5 @@ void sys_render_init()
 
 void sys_render_update()
 {
-    man_entity_forAll(_sys_render_updateSingleEntity);
+    man_entity_forAllMatching(_sys_render_updateSingleEntity, entityTypeRenderable);
 }

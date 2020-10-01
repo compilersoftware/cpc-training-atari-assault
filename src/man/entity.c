@@ -82,6 +82,28 @@ void man_entity_forAll(void (*updateFunctionPtr)(Entity_t*))
     }
 }
 
+/**
+ * Mediante el patrón "inversión de control", recorre el array de entidades y llama con cada
+ * una de las que cumple la "firma" a la función updateFunctionPtr
+ * 
+ * @TODO implementar un mecanismo para no tener que recorrer siempre todas las entidades y filtrar
+ * las que cumplen la firma (se sale del ámbito de este ejercicio)
+ * 
+ * @param updateFunctionPtr es un puntero a una función con un parámetro de tipo puntero a Entity_t
+ * @param signature es una "firma", es decir, un conjunto de bits a 1 con los criterios que ha de cumplir
+ *                  el tipo de entidad
+ */
+void man_entity_forAllMatching(void (*updateFunctionPtr)(Entity_t*), u8 signature)
+{
+    Entity_t* entity = _entities;
+    while (entity->type != entityTypeInvalid) {
+        if ((entity->type & signature) == signature) {
+            updateFunctionPtr(entity);
+        }
+        ++entity;
+    }
+}
+
 void man_entity_update()
 {
     Entity_t* entity = _entities;

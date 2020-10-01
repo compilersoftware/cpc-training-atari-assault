@@ -3,20 +3,37 @@
 
 /* Funciones privadas */
 
-void _sys_physics_updateSingleEntity(Entity_t* entity)
+void m_sys_physics_checkKeyboard(Entity_t* entity)
 {
-    // Creamos una copia en una variable local para facilitar la comparación
-    u8 newX = entity->x + entity->vx;
-    if (newX > entity->x) {
-        man_entity_markForDestruction(entity);
+    // En el vídeo se hace la prueba de trabajar aquí con una variable global vx
+    // En este caso, curiosamente, no se consigue ninguna mejora en cuanto a longitud de código
+    // generado
+
+    cpct_scanKeyboard_f();
+    entity->vx = 0;
+    if (cpct_isKeyPressed(Key_O)) {
+        entity->vx = -1;
+    } else if (cpct_isKeyPressed(Key_P)) {
+        entity->vx = 1;
     }
-    entity->x = newX;
+}
+
+void m_sys_physics_updateSingleEntity(Entity_t* entity)
+{
+    // Por simplicidad, vamos a tratar aquí las entidades de tipo entityTypeControllable
+    // @TODO llevar aparte esta funcionalidad
+    if (entity->type & entityTypeControllable) {
+        m_sys_physics_checkKeyboard(entity);
+    }
+
+    entity->x = entity->x + entity->vx;
+    entity->y = entity->y + entity->vy;
 }
 
 /* Funciones públicas */
 
 void sys_physics_update()
 {
-    // Inversión de control, un patrón muy claro y útil, una vez se entiende
-    man_entity_forAll(_sys_physics_updateSingleEntity);
+    // Sólo queremos actualizar las entidades "movibles"
+    man_entity_forAllMatching(m_sys_physics_updateSingleEntity, entityTypeMovable);
 }
