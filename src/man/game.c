@@ -22,7 +22,8 @@ const Entity_t mothershipTemplate = {
     38, 10,                                                     // x, y
     SPRITEMOTHERSHIP_W,  SPRITEMOTHERSHIP_H,                    // width, height
     -1,  0,                                                     // vx, vy
-    spriteMothership                                            // sprite
+    spriteMothership,                                           // sprite
+    sys_ai_mothershipBehaviour                                  // aiBehaviour
 };
 
 const Entity_t scoreboardPlayerTemplate = {
@@ -30,7 +31,8 @@ const Entity_t scoreboardPlayerTemplate = {
     0, 192,                                     // x, y
     SPRITEPLAYESHIP_1_W,  SPRITEPLAYESHIP_1_H,  // width, height
     0,  0,                                      // vx, vy
-    spritePlayeship_1                           // sprite
+    spritePlayeship_1,                          // sprite
+    0x0000                                      // aiBehaviour (NULL Pointer)
 };
 
 const Entity_t playerTemplate = {
@@ -38,7 +40,8 @@ const Entity_t playerTemplate = {
     38, 180,                                                            // x, y
     SPRITEPLAYESHIP_0_W,  SPRITEPLAYESHIP_0_H,                          // width, height
     0,  0,                                                              // vx, vy
-    spritePlayeship_0                                                   // sprite
+    spritePlayeship_0,                                                  // sprite
+    0x0000                                                              // aiBehaviour (NULL Pointer)
 };
 
 

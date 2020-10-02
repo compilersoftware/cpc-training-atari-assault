@@ -73,7 +73,7 @@ void man_entity_markForDestruction(Entity_t* entity)
  * 
  * @param updateFunctionPtr es un puntero a una función con un parámetro de tipo puntero a Entity_t
  */
-void man_entity_forAll(void (*updateFunctionPtr)(Entity_t*))
+void man_entity_forAll(UpdateFunc_t updateFunctionPtr)
 {
     Entity_t* entity = _entities;
     while (entity->type != entityTypeInvalid) {
@@ -93,7 +93,7 @@ void man_entity_forAll(void (*updateFunctionPtr)(Entity_t*))
  * @param signature es una "firma", es decir, un conjunto de bits a 1 con los criterios que ha de cumplir
  *                  el tipo de entidad
  */
-void man_entity_forAllMatching(void (*updateFunctionPtr)(Entity_t*), u8 signature)
+void man_entity_forAllMatching(UpdateFunc_t updateFunctionPtr, u8 signature)
 {
     Entity_t* entity = _entities;
     while (entity->type != entityTypeInvalid) {

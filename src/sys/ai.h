@@ -5,3 +5,4 @@
 /* Interfaz pública */
 
 void sys_ai_update();
+void sys_ai_mothershipBehaviour(Entity_t *entity);
