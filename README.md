@@ -18,6 +18,9 @@ Para editar los gráficos hemos usado Aseprite, que implementa tanto píxeles ho
 
 Se explican todas ellas en los vídeos. A continuación se citan las más relevantes (bajo nuestro criterio).
 
+* Por simplicidad, la lectura de teclado se hace desde el sistema de físicas.
+* El manager del juego es el encargado de gestionar todas las reglas. Por tanto, también gestionará la creación de entidades, ya que depende de las reglas y de las circunstancias del juego. Los sistemas se hablarán con el manager del juego si necesitan crear entidades.
+
 
 
 ## Versiones

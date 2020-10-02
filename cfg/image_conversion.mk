@@ -48,6 +48,7 @@ $(eval $(call IMG2SP, SET_PALETTE_FW, $(PALETTE)))
 $(eval $(call IMG2SP, CONVERT_PALETTE, $(PALETTE), mainPalette))
 $(eval $(call IMG2SP, CONVERT, assets/mothership.png, 36, 18, spriteMothership))
 $(eval $(call IMG2SP, CONVERT, assets/playership.png, 12, 8, spritePlayeship))
+$(eval $(call IMG2SP, CONVERT, assets/enemy1.png, 20, 10, spriteEnemy1))
 
 ##
 ## OLD MACROS (For compatibility)
