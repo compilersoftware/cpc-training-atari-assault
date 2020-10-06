@@ -1,69 +1,29 @@
 #include "game.h"
-#include "man/entity.h"
-#include "sys/physics.h"
-#include "sys/render.h"
-#include "sys/ai.h"
-#include "sprites/mothership.h"
-#include "sprites/playership.h"
-#include "sprites/enemy1.h"
-#include "sys/animations.h"
-#include "man/animations.h"
+
+#include <man/animations.h>
+#include <man/entity.h>
+#include <man/entity_templates.h>
+#include <sprites/enemy1.h>
+#include <sprites/mothership.h>
+#include <sprites/playership.h>
+#include <sys/ai.h>
+#include <sys/animations.h>
+#include <sys/physics.h>
+#include <sys/render.h>
 
 /* Atributos privados */
 
 u8 m_enemyOnLane;
 
-const u8 sprite[] = {
-    0xFF, 0xFF, 0xFF, 0x00,
-    0xFF, 0xFF, 0xFF, 0x00,
-    0xFF, 0xFF, 0xFF, 0x00,
-    0xFF, 0xFF, 0xFF, 0x00,
-    0xFF, 0xFF, 0xFF, 0x00,
-    0xFF, 0xFF, 0xFF, 0x00
-};
-
-const Entity_t mothershipTemplate = {
-    entityTypeMovable | entityTypeRenderable | entityTypeAI,
-    38, 10,                                                  
-    SPRITEMOTHERSHIP_W,  SPRITEMOTHERSHIP_H, 
-    -1,  0,                                
-    spriteMothership,                       
-    sys_ai_mothershipBehaviour,
-    0x0000, 0x00             
-};
-
-const Entity_t enemy1Template = {
-    entityTypeMovable | entityTypeRenderable | entityTypeAI | entityTypeAnimated,
-    0, 40,
-    SPRITEENEMY1_0_W,  SPRITEENEMY1_0_H,
-    0,  0,
-    spriteEnemy1_0,
-    sys_ai_leftRightBehaviour,
-    man_animations_enemy1Animation, 0x00
-};
-
-const Entity_t scoreboardPlayerTemplate = {
-    entityTypeRenderable,
-    0, 192,
-    SPRITEPLAYESHIP_1_W,  SPRITEPLAYESHIP_1_H,
-    0,  0,
-    spritePlayeship_1,
-    0x0000,
-    0x0000, 0x00
-};
-
-const Entity_t playerTemplate = {
-    entityTypeMovable | entityTypeRenderable | entityTypeControllable,
-    38, 180,                   
-    SPRITEPLAYESHIP_0_W,  SPRITEPLAYESHIP_0_H,  
-    0,  0,    
-    spritePlayeship_0,                      
-    0x0000,
-    0x0000, 0x00
-};
-
-
 /* Funciones privadas */
+
+void m_man_game_wait(u8 n)
+{
+    do {
+        cpct_waitHalts(2);
+        cpct_waitVSYNC();
+    } while (--n);
+}
 
 Entity_t* m_man_game_createTemplateEntity(const Entity_t* template)
 {
@@ -122,7 +82,7 @@ void man_game_play()
         // Actualizar manager
         man_entity_update();
 
-        //cpct_waitHalts(5);
+        m_man_game_wait(5);
         cpct_waitVSYNC;
     }
 }

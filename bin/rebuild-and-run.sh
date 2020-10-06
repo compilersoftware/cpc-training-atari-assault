@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-make clean && make && cpct_winape -a
+make cleanall && make && cpct_winape -a

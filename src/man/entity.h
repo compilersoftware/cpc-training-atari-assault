@@ -34,20 +34,20 @@ typedef struct Entity_t {
     u8 x, y;
     u8 width, height;
     i8 vx, vy;
-    u8* sprite;
+    u8 const * sprite;
     BehaviourFunc_t aiBehaviour; // Puntero a la función que implementa el comportamiento (IA)
-    AnimFrame_t* frame; // Puntero al frame de animación actual
+    AnimFrame_t const * frame; // Puntero al frame de animación actual
     u8 animCounter; // Contador de frames de animación
 };
 
 // Animación
 union SpriteOrNextFrame_t {
-    u8* sprite;
-    AnimFrame_t* next;
+    u8 const * const sprite;
+    AnimFrame_t const * const next;
 };
 
 struct AnimFrame_t {
-    u8 time;
+    u8 const time; // Lo definimos como constante porque no queremos que nadie lo cambie por error
     SpriteOrNextFrame_t val; // Si time == 0, val apunta al primer fotograma. Si no, es el sprite de esa animación
 };
 

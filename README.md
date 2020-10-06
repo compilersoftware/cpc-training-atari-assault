@@ -20,6 +20,7 @@ Se explican todas ellas en los vídeos. A continuación se citan las más releva
 
 * Por simplicidad, la lectura de teclado se hace desde el sistema de físicas.
 * El manager del juego es el encargado de gestionar todas las reglas. Por tanto, también gestionará la creación de entidades, ya que depende de las reglas y de las circunstancias del juego. Los sistemas se hablarán con el manager del juego si necesitan crear entidades.
+* Uso del calificador const para indicar variables de sólo lectura y hacer más robusto el código
 
 
 
