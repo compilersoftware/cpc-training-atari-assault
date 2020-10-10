@@ -55,6 +55,7 @@ struct AnimFrame_t {
 
 void man_entity_init();
 Entity_t* man_entity_create();
+Entity_t* man_entity_clone(Entity_t* entity);
 void man_entity_markForDestruction(Entity_t* entity);
 void man_entity_forAll(UpdateFunc_t updateFunctionPtr);
 void man_entity_forAllMatching(UpdateFunc_t updateFunctionPtr, u8 signature);

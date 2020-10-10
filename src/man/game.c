@@ -114,26 +114,34 @@ void man_game_createEnemy(Entity_t* mothership)
  */
 void man_game_enemyLaneDown(Entity_t* enemy)
 {
+    u8 lane;
+    Entity_t* enemyClone;
+
     if (enemy->y > LANE_1_Y) {
         // Estamos en el carril 0 y no se puede bajar más
         return;
     }
 
-    {
-        u8 lane = 2;
-        if (enemy->y > LANE_2_Y) {
-            lane = 1;
-        }
-
-        // Comprobamos si el carril inferior está ocupado
-        if (m_laneStatus[lane - 1] != 0) {
-            return;
-        }
-
-        // Bajamos al carril inferior
-        enemy->y += LANE_DY;
-        // Actualizamos el estado de los carriles
-        m_laneStatus[lane] = 0;
-        m_laneStatus[lane - 1] = 1;
+    lane = 2;        
+    if (enemy->y > LANE_2_Y) {
+        lane = 1;
     }
+
+    // Comprobamos si el carril inferior está ocupado
+    if (m_laneStatus[lane - 1] != 0) {
+        return;
+    }
+
+    // Clonamos la entidad para luego destruirla y así conseguir que se
+    // "borre el rastro"
+    enemyClone = man_entity_clone(enemy);
+    // Sólo queremos que se dibuje, no que se actualice la posición ni nada
+    enemyClone->type = entityTypeRenderable;
+    man_entity_markForDestruction(enemyClone);
+
+    // Bajamos al carril inferior
+    enemy->y += LANE_DY;
+    // Actualizamos el estado de los carriles
+    m_laneStatus[lane] = 0;
+    m_laneStatus[lane - 1] = 1;
 }

@@ -50,6 +50,9 @@ void man_entity_init()
     _zeroByteAtTheEnd = entityTypeInvalid;
 }
 
+/**
+ * @precondition Tiene que haber espacio para crear la entidad
+ */
 Entity_t* man_entity_create()
 {
     Entity_t* entity = _nextFreeEntity;
@@ -57,6 +60,16 @@ Entity_t* man_entity_create()
     entity->type = entityTypeDefault;
     ++_numEntities;
     return entity;
+}
+
+/**
+ * @precondition Tiene que haber espacio para clonar la entidad
+ */
+Entity_t* man_entity_clone(Entity_t* entity)
+{
+    Entity_t* entityClone = man_entity_create();
+    cpct_memcpy(entityClone, entity, sizeof(Entity_t));
+    return entityClone;
 }
 
 /**

@@ -9,11 +9,13 @@
 
 void _sys_render_updateSingleEntity(Entity_t* entity)
 {
-    // Dibuja la actual (si no está marcada para destruir)
-    // Draw current (if it is not marked for destruction)
+    u8* pVideoMem = cpct_getScreenPtr(CPCT_VMEM_START, entity->x, entity->y);   
     if (!(entity->type & entityTypeDead)) {
-        u8* pVideoMem = cpct_getScreenPtr(CPCT_VMEM_START, entity->x, entity->y);
+        // Dibuja la actual (si no está marcada para destruir)
         cpct_drawSprite(entity->sprite, pVideoMem, entity->width, entity->height);
+    } else {
+        // Si está muerta la "borramos"
+        cpct_drawSolidBox(pVideoMem, 0, entity->width, entity->height);
     }
 }
 
