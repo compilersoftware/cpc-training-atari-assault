@@ -17,7 +17,7 @@
 //------------------------------------------------------------------------------
 
 #include <cpctelera.h>
-#include "man/game.h"
+#include <man/game.h>
 
 void main(void)
 {

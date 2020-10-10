@@ -7,3 +7,4 @@
 void sys_ai_update();
 void sys_ai_leftRightBehaviour(Entity_t *entity);
 void sys_ai_mothershipBehaviour(Entity_t *entity);
+void sys_ai_enemyBehaviour(Entity_t * entity);

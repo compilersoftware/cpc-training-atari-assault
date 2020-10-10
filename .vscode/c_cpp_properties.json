@@ -4,14 +4,12 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceRoot}/src",
-                "/usr/include",
                 "/usr/local/include",
                 "${env:CPCT_PATH}/src"
             ],
             "defines": [],
             "browse": {
                 "path": [
-                    "/usr/include",
                     "/usr/local/include",
                     "${env:CPCT_PATH}/src"
                 ],

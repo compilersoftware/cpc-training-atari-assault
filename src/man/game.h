@@ -14,3 +14,4 @@
 void man_game_init();
 void man_game_play();
 void man_game_createEnemy(Entity_t* mothership);
+void man_game_enemyLaneDown(Entity_t* enemy);

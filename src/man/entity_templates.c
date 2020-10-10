@@ -19,11 +19,11 @@ const Entity_t mothershipTemplate = {
 
 const Entity_t enemy1Template = {
     entityTypeMovable | entityTypeRenderable | entityTypeAI | entityTypeAnimated,
-    0, 40,
+    0, LANE_2_Y,
     SPRITEENEMY1_0_W,  SPRITEENEMY1_0_H,
     0,  0,
     spriteEnemy1_0,
-    sys_ai_leftRightBehaviour,
+    sys_ai_enemyBehaviour,
     man_animations_enemy1Animation, MAN_ANIMATIONS_ENEMY_1_ANIMATION_TIME
 };
 

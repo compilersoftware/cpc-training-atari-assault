@@ -29,11 +29,23 @@ void sys_ai_leftRightBehaviour(Entity_t* entity)
 
 void sys_ai_mothershipBehaviour(Entity_t* entity)
 {
-    // Intentamos crear un nuevo enemigo cuando estemos en la posición x=20
+    // Intentamos crear un nuevo enemigo cuando estemos en la posición x=22
     // @TODO implementar un contador u otra lógica similar
-    if (entity->x == 20) {
+    // @TODO Hemos cambiado la posición inicial para que no dé la casualidad de que los enemigos
+    // recién creados bajen directamente al siguiente carril
+    if (entity->x == 22) {
         man_game_createEnemy(entity);
     }
 
+    sys_ai_leftRightBehaviour(entity);
+}
+
+void sys_ai_enemyBehaviour(Entity_t* entity)
+{
+    if ((entity->x & 0x07) == 0) {
+        // Le pasamos la responsabilidad de bajar de carril al manager del juego, ya que es
+        // quien conoce las reglas, las restricciones y el estado actual
+        man_game_enemyLaneDown(entity);
+    }
     sys_ai_leftRightBehaviour(entity);
 }

@@ -13,7 +13,7 @@
 
 /* Atributos privados */
 
-u8 m_enemyOnLane;
+u8 m_laneStatus[3];
 
 /* Funciones privadas */
 
@@ -65,8 +65,8 @@ void man_game_init()
     // Player
     m_man_game_createTemplateEntity(&playerTemplate);
 
-    // Flag de carril de creación de enemigos ocupado
-    m_enemyOnLane = 0;
+    // Flags de estado de carriles
+    cpct_memset(m_laneStatus, 0, sizeof(m_laneStatus));
 }
 
 void man_game_play()
@@ -82,7 +82,7 @@ void man_game_play()
         // Actualizar manager
         man_entity_update();
 
-        m_man_game_wait(5);
+        m_man_game_wait(2);
         cpct_waitVSYNC;
     }
 }
@@ -93,7 +93,7 @@ void man_game_play()
 void man_game_createEnemy(Entity_t* mothership)
 {
     // Si ya hay un enemigo en este carril, no creamos uno nuevo
-    if (m_enemyOnLane) {
+    if (m_laneStatus[2] != 0) {
         return;
     }
 
@@ -106,5 +106,34 @@ void man_game_createEnemy(Entity_t* mothership)
     }
 
     // Marcamos que el carril está ocupado
-    m_enemyOnLane = 1;
+    m_laneStatus[2] = 1;
+}
+
+/**
+ * @precondition enemy es una entidad enemy
+ */
+void man_game_enemyLaneDown(Entity_t* enemy)
+{
+    if (enemy->y > LANE_1_Y) {
+        // Estamos en el carril 0 y no se puede bajar más
+        return;
+    }
+
+    {
+        u8 lane = 2;
+        if (enemy->y > LANE_2_Y) {
+            lane = 1;
+        }
+
+        // Comprobamos si el carril inferior está ocupado
+        if (m_laneStatus[lane - 1] != 0) {
+            return;
+        }
+
+        // Bajamos al carril inferior
+        enemy->y += LANE_DY;
+        // Actualizamos el estado de los carriles
+        m_laneStatus[lane] = 0;
+        m_laneStatus[lane - 1] = 1;
+    }
 }
