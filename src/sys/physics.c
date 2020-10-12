@@ -1,5 +1,6 @@
 #include "physics.h"
 #include <man/entity.h>
+#include <man/game.h>
 
 /* Funciones privadas */
 
@@ -10,11 +11,18 @@ void m_sys_physics_checkKeyboard(Entity_t* entity)
     // generado
 
     cpct_scanKeyboard_f();
+
+    // Movimiento izquierda/derecha
     entity->vx = 0;
     if (cpct_isKeyPressed(Key_O)) {
         entity->vx = -1;
     } else if (cpct_isKeyPressed(Key_P)) {
         entity->vx = 1;
+    }
+
+    // Disparo
+    if (cpct_isKeyPressed(Key_Space)) {
+        man_game_playerShot(entity);
     }
 }
 

@@ -36,6 +36,7 @@ typedef struct Entity_t {
     i8 vx, vy;
     u8 const * sprite;
     BehaviourFunc_t aiBehaviour; // Puntero a la función que implementa el comportamiento (IA)
+    u8 aiCounter; // Contador de frames de IA
     AnimFrame_t const * frame; // Puntero al frame de animación actual
     u8 animCounter; // Contador de frames de animación
 };

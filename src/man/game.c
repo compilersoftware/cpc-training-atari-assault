@@ -14,6 +14,7 @@
 /* Atributos privados */
 
 u8 m_laneStatus[3];
+u8 m_playerShot;
 
 /* Funciones privadas */
 
@@ -67,6 +68,9 @@ void man_game_init()
 
     // Flags de estado de carriles
     cpct_memset(m_laneStatus, 0, sizeof(m_laneStatus));
+
+    // Flag de estado de disparo de jugador
+    m_playerShot = 0;
 }
 
 void man_game_play()
@@ -144,4 +148,25 @@ void man_game_enemyLaneDown(Entity_t* enemy)
     // Actualizamos el estado de los carriles
     m_laneStatus[lane] = 0;
     m_laneStatus[lane - 1] = 1;
+}
+
+void man_game_destroyEntity(Entity_t* entity)
+{
+    // if (disparo) m_playerShot = 0;
+    m_playerShot = 0;
+    man_entity_markForDestruction(entity);
+}
+
+void man_game_playerShot(Entity_t* player)
+{
+    if (m_playerShot != 0) {
+        return;
+    }
+
+    // Sólo podemos disparar si no hay otro disparo en curso
+    {
+        Entity_t *playerShot = m_man_game_createTemplateEntity(&playerShotTemplate);
+        playerShot->x = player->x + 2; // El disparo sale centrado de la nave del jugador
+        m_playerShot = 1;
+    }
 }

@@ -49,3 +49,10 @@ void sys_ai_enemyBehaviour(Entity_t* entity)
     }
     sys_ai_leftRightBehaviour(entity);
 }
+
+void sys_ai_autodestroyBehaviour(Entity_t* entity)
+{
+    if (--(entity->aiCounter) == 0) {
+        man_game_destroyEntity(entity);
+    }
+}
