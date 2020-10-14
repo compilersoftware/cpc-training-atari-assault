@@ -30,7 +30,7 @@ void m_sys_physics_updateSingleEntity(Entity_t* entity)
 {
     // Por simplicidad, vamos a tratar aquí las entidades de tipo entityTypeControllable
     // @TODO llevar aparte esta funcionalidad
-    if (entity->type & entityTypeControllable) {
+    if (entity->components & entityComponentInput) {
         m_sys_physics_checkKeyboard(entity);
     }
 
@@ -43,5 +43,5 @@ void m_sys_physics_updateSingleEntity(Entity_t* entity)
 void sys_physics_update()
 {
     // Sólo queremos actualizar las entidades movibles
-    man_entity_forAllMatching(m_sys_physics_updateSingleEntity, entityTypeMovable);
+    man_entity_forAllMatchingComponent(m_sys_physics_updateSingleEntity, entityComponentMovement);
 }

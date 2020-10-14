@@ -22,5 +22,5 @@ void m_sys_animations_updateSingleEntity(Entity_t* entity)
 void sys_animations_update()
 {
     // Sólo queremos actualizar las entidades animadas
-    man_entity_forAllMatching(m_sys_animations_updateSingleEntity, entityTypeAnimated);
+    man_entity_forAllMatchingComponent(m_sys_animations_updateSingleEntity, entityComponentAnimation);
 }

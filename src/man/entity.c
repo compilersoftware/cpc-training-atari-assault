@@ -58,6 +58,7 @@ Entity_t* man_entity_create()
     Entity_t* entity = _nextFreeEntity;
     _nextFreeEntity = entity + 1;
     entity->type = entityTypeDefault;
+    entity->components = entityComponentDefault;
     ++_numEntities;
     return entity;
 }
@@ -106,11 +107,11 @@ void man_entity_forAll(UpdateFunc_t updateFunctionPtr)
  * @param signature es una "firma", es decir, un conjunto de bits a 1 con los criterios que ha de cumplir
  *                  el tipo de entidad
  */
-void man_entity_forAllMatching(UpdateFunc_t updateFunctionPtr, u8 signature)
+void man_entity_forAllMatchingComponent(UpdateFunc_t updateFunctionPtr, u8 signature)
 {
     Entity_t* entity = _entities;
     while (entity->type != entityTypeInvalid) {
-        if ((entity->type & signature) == signature) {
+        if ((entity->components & signature) == signature) {
             updateFunctionPtr(entity);
         }
         ++entity;

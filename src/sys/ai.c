@@ -14,7 +14,7 @@ void m_sys_ai_updateSingleEntity(Entity_t* entity)
 void sys_ai_update()
 {
     // Sólo queremos actualizar las entidades con IA
-    man_entity_forAllMatching(m_sys_ai_updateSingleEntity, entityTypeAI);
+    man_entity_forAllMatchingComponent(m_sys_ai_updateSingleEntity, entityComponentAi);
 }
 
 void sys_ai_leftRightBehaviour(Entity_t* entity)

@@ -9,7 +9,8 @@
 #include <sys/ai.h>
 
 const Entity_t mothershipTemplate = {
-    entityTypeMovable | entityTypeRenderable | entityTypeAI,
+    entityTypeMothership,
+    entityComponentMovement | entityComponentRender | entityComponentAi,
     38, 10,                                                  
     SPRITEMOTHERSHIP_W,  SPRITEMOTHERSHIP_H, 
     -1,  0,                                
@@ -20,7 +21,8 @@ const Entity_t mothershipTemplate = {
 };
 
 const Entity_t enemy1Template = {
-    entityTypeMovable | entityTypeRenderable | entityTypeAI | entityTypeAnimated,
+    entityTypeEnemy,
+    entityComponentMovement | entityComponentRender | entityComponentAi | entityComponentAnimation,
     0, LANE_2_Y,
     SPRITEENEMY1_0_W,  SPRITEENEMY1_0_H,
     0,  0,
@@ -31,7 +33,8 @@ const Entity_t enemy1Template = {
 };
 
 const Entity_t scoreboardPlayerTemplate = {
-    entityTypeRenderable,
+    entityTypePlayer,
+    entityComponentRender,
     0, 192,
     SPRITEPLAYESHIP_1_W,  SPRITEPLAYESHIP_1_H,
     0,  0,
@@ -42,7 +45,8 @@ const Entity_t scoreboardPlayerTemplate = {
 };
 
 const Entity_t playerTemplate = {
-    entityTypeMovable | entityTypeRenderable | entityTypeControllable,
+    entityTypeDefault,
+    entityComponentMovement | entityComponentRender | entityComponentInput,
     38, PLAYER_Y,                   
     SPRITEPLAYESHIP_0_W,  SPRITEPLAYESHIP_0_H,  
     0,  0,    
@@ -53,7 +57,8 @@ const Entity_t playerTemplate = {
 };
 
 const Entity_t playerShotTemplate = {
-    entityTypeMovable | entityTypeRenderable | entityTypeAI,
+    entityTypeShot,
+    entityComponentMovement | entityComponentRender | entityComponentAi,
     0, PLAYERSHOT_Y,
     SPRITEVSHOT_W,  SPRITEVSHOT_H,
     0,  -8,

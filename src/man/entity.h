@@ -1,18 +1,24 @@
 #pragma once
 #include <cpctelera.h>
 
-
 /* Constantes */
 
 // Tipos de entidades (en formato mapa de bits)
-#define entityTypeInvalid 0x00      // Inválida
-#define entityTypeRenderable 0x01   // Dibujable
-#define entityTypeMovable 0x02      // Movible
-#define entityTypeControllable 0x04 // Controlable por el jugador
-#define entityTypeAI 0x08           // Controlable por la IA
-#define entityTypeAnimated 0x10     // Animada
-#define entityTypeDead 0x80 
-#define entityTypeDefault 0x7F
+#define entityTypeInvalid 0x00
+#define entityTypePlayer 0x01
+#define entityTypeEnemy 0x02
+#define entityTypeMothership 0x04
+#define entityTypeShot 0x08
+#define entityTypeDead 0x80
+#define entityTypeDefault entityTypeEnemy 
+
+// Componentes (en formato mapa de bits)
+#define entityComponentRender 0x01
+#define entityComponentMovement 0x02
+#define entityComponentInput 0x04
+#define entityComponentAi 0x08
+#define entityComponentAnimation 0x10
+#define entityComponentDefault 0x00
 
 #define MAX_ENTITIES 12
 
@@ -31,6 +37,7 @@ typedef void (*UpdateFunc_t)(Entity_t *); // En este caso, PtrFunc_t es el alias
 // Entidad
 typedef struct Entity_t {
     u8 type;
+    u8 components; // Mapa de bits que indica los componentes que tiene la entidad
     u8 x, y;
     u8 width, height;
     i8 vx, vy;
@@ -59,6 +66,6 @@ Entity_t* man_entity_create();
 Entity_t* man_entity_clone(Entity_t* entity);
 void man_entity_markForDestruction(Entity_t* entity);
 void man_entity_forAll(UpdateFunc_t updateFunctionPtr);
-void man_entity_forAllMatching(UpdateFunc_t updateFunctionPtr, u8 signature);
+void man_entity_forAllMatchingComponent(UpdateFunc_t updateFunctionPtr, u8 signature);
 void man_entity_update();
 u8 man_entity_freeSpace();

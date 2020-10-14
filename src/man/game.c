@@ -140,7 +140,7 @@ void man_game_enemyLaneDown(Entity_t* enemy)
     // "borre el rastro"
     enemyClone = man_entity_clone(enemy);
     // Sólo queremos que se dibuje, no que se actualice la posición ni nada
-    enemyClone->type = entityTypeRenderable;
+    enemyClone->components = entityComponentRender;
     man_entity_markForDestruction(enemyClone);
 
     // Bajamos al carril inferior
