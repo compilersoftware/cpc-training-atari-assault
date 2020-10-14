@@ -152,8 +152,9 @@ void man_game_enemyLaneDown(Entity_t* enemy)
 
 void man_game_destroyEntity(Entity_t* entity)
 {
-    // if (disparo) m_playerShot = 0;
-    m_playerShot = 0;
+    if (entity->type & entityTypeShot) {
+        m_playerShot = 0;
+    }
     man_entity_markForDestruction(entity);
 }
 
