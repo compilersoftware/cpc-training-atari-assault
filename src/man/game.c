@@ -8,6 +8,7 @@
 #include <sprites/playership.h>
 #include <sys/ai.h>
 #include <sys/animations.h>
+#include <sys/collisions.h>
 #include <sys/physics.h>
 #include <sys/render.h>
 
@@ -31,6 +32,22 @@ Entity_t* m_man_game_createTemplateEntity(const Entity_t* template)
     Entity_t* entity = man_entity_create();
     cpct_memcpy(entity, template, sizeof(Entity_t));
     return entity;
+}
+
+/**
+ * @precondition enemy es una entidad enemy
+ */
+u8 m_man_game_getEnemyLane(Entity_t* enemy)
+{
+    u8 enemyY = enemy->y;
+    switch (enemyY) {
+        case LANE_0_Y: 
+            return 0;
+        case LANE_1_Y:
+            return 1;
+        default:
+            return 2;
+    }
 }
 
 
@@ -81,6 +98,7 @@ void man_game_play()
         sys_ai_update();
         sys_physics_update();
         sys_animations_update();
+        sys_collisions_update();
         sys_render_update();
 
         // Actualizar manager
@@ -118,17 +136,11 @@ void man_game_createEnemy(Entity_t* mothership)
  */
 void man_game_enemyLaneDown(Entity_t* enemy)
 {
-    u8 lane;
+    u8 lane = m_man_game_getEnemyLane(enemy);
     Entity_t* enemyClone;
 
-    if (enemy->y > LANE_1_Y) {
-        // Estamos en el carril 0 y no se puede bajar más
+    if (lane == 0) {
         return;
-    }
-
-    lane = 2;        
-    if (enemy->y > LANE_2_Y) {
-        lane = 1;
     }
 
     // Comprobamos si el carril inferior está ocupado
@@ -152,8 +164,12 @@ void man_game_enemyLaneDown(Entity_t* enemy)
 
 void man_game_destroyEntity(Entity_t* entity)
 {
-    if (entity->type & entityTypeShot) {
+    if (isA(entity, entityTypeShot)) {
         m_playerShot = 0;
+    } else if (isA(entity, entityTypeEnemy)) {
+        // Actualizamos la información de carriles
+        u8 lane = m_man_game_getEnemyLane(entity);
+        m_laneStatus[lane] = 0;
     }
     man_entity_markForDestruction(entity);
 }
@@ -167,7 +183,20 @@ void man_game_playerShot(Entity_t* player)
     // Sólo podemos disparar si no hay otro disparo en curso
     {
         Entity_t *playerShot = m_man_game_createTemplateEntity(&playerShotTemplate);
-        playerShot->x = player->x + 2; // El disparo sale centrado de la nave del jugador
+        // El disparo sale centrado de la nave del jugador
+        playerShot->x = player->x + ((player->width + playerShot->width) / 2); 
         m_playerShot = 1;
     }
+}
+
+/**
+ * @precondition enemy es una entidad de tipo enemigo
+ * @precondition shot es una entidad de tipo shot (player shot)
+ */
+void man_game_enemyHitByShot(Entity_t* enemy, Entity_t* shot)
+{
+    man_game_destroyEntity(enemy);
+    man_game_destroyEntity(shot);
+
+    // @TODO Actualizar marcador (cuando tengamos marcador)
 }

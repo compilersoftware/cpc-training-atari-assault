@@ -68,7 +68,7 @@ const Entity_t playerShotTemplate = {
     0,  -8,
     spriteVShot,
     sys_ai_autodestroyBehaviour,
-    14,
+    16,
     0x0000, 0x00,
     entityTypeEnemy
 };

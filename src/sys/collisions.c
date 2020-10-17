@@ -1,7 +1,19 @@
 #include "collisions.h"
 #include <man/entity.h>
+#include <man/game.h>
 
 /* Funciones privadas */
+
+u8 m_sys_collisions_entitiesHaveCollided(Entity_t* entityLeft, Entity_t* entityRight)
+{
+    // @see https://gamedev.stackexchange.com/a/913/113499
+    return !(
+        (entityRight->x > (entityLeft->x + entityLeft->width))
+        || ((entityRight->x + entityRight->width) < entityLeft->x)
+        || (entityRight->y > (entityLeft->y + entityLeft->height))
+        || ((entityRight->y + entityRight->height) < entityLeft->y)
+        );
+} 
 
 void m_sys_collisions_updateEntities(Entity_t* entityLeft, Entity_t* entityRight)
 {
@@ -17,8 +29,23 @@ void m_sys_collisions_updateEntities(Entity_t* entityLeft, Entity_t* entityRight
     }
 
     // 2. Ver si las dos entidades han colisionado mirando los bounding boxes
+    if (!m_sys_collisions_entitiesHaveCollided(entityLeft, entityRight)) {
+        return;
+    }
 
     // 3. Según los tipos que han colisionado, hay que decidir las acciones correspondientes
+    if ((isA(entityLeft, entityTypeShot) 
+        && isA(entityRight, entityTypeEnemy))
+    ) {
+        man_game_enemyHitByShot(entityRight, entityLeft);
+        return;
+    }
+    if ((isA(entityRight, entityTypeShot) 
+        && isA(entityLeft, entityTypeEnemy))
+    ) {
+        man_game_enemyHitByShot(entityLeft, entityRight);
+        return;
+    }
 }
 
 /* Funciones públicas */

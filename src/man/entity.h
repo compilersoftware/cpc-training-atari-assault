@@ -27,6 +27,7 @@
 #define isValid(E) ((E)->type != entityTypeInvalid)
 #define isDead(E) ((E)->type & entityTypeDead)
 #define signatureMatches(E, S) (((E)->components & S) == S)
+#define isA(E, T) ((E)->type & T)
 
 /* Estructuras de datos */
 
