@@ -17,19 +17,21 @@ const Entity_t mothershipTemplate = {
     spriteMothership,                       
     sys_ai_mothershipBehaviour,
     0,
-    0x0000, 0x00             
+    0x0000, 0x00,
+    0   
 };
 
 const Entity_t enemy1Template = {
     entityTypeEnemy,
-    entityComponentMovement | entityComponentRender | entityComponentAi | entityComponentAnimation,
+    entityComponentMovement | entityComponentRender | entityComponentAi | entityComponentAnimation | entityComponentCollision,
     0, LANE_2_Y,
     SPRITEENEMY1_0_W,  SPRITEENEMY1_0_H,
     0,  0,
     spriteEnemy1_0,
     sys_ai_enemyBehaviour,
     0,
-    man_animations_enemy1Animation, MAN_ANIMATIONS_ENEMY_1_ANIMATION_TIME
+    man_animations_enemy1Animation, MAN_ANIMATIONS_ENEMY_1_ANIMATION_TIME,
+    0
 };
 
 const Entity_t scoreboardPlayerTemplate = {
@@ -41,29 +43,32 @@ const Entity_t scoreboardPlayerTemplate = {
     spritePlayeship_1,
     0x0000,
     0,
-    0x0000, 0x00
+    0x0000, 0x00,
+    0
 };
 
 const Entity_t playerTemplate = {
     entityTypeDefault,
-    entityComponentMovement | entityComponentRender | entityComponentInput,
+    entityComponentMovement | entityComponentRender | entityComponentInput | entityComponentCollision,
     38, PLAYER_Y,                   
     SPRITEPLAYESHIP_0_W,  SPRITEPLAYESHIP_0_H,  
     0,  0,    
     spritePlayeship_0,                      
     0x0000,
     0,
-    0x0000, 0x00
+    0x0000, 0x00,
+    0
 };
 
 const Entity_t playerShotTemplate = {
     entityTypeShot,
-    entityComponentMovement | entityComponentRender | entityComponentAi,
+    entityComponentMovement | entityComponentRender | entityComponentAi | entityComponentCollision,
     0, PLAYERSHOT_Y,
     SPRITEVSHOT_W,  SPRITEVSHOT_H,
     0,  -8,
     spriteVShot,
     sys_ai_autodestroyBehaviour,
     14,
-    0x0000, 0x00
+    0x0000, 0x00,
+    entityTypeEnemy
 };

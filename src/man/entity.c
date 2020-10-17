@@ -90,7 +90,7 @@ void man_entity_markForDestruction(Entity_t* entity)
 void man_entity_forAll(UpdateFunc_t updateFunctionPtr)
 {
     Entity_t* entity = _entities;
-    while (entity->type != entityTypeInvalid) {
+    while (isValid(entity)) {
         updateFunctionPtr(entity);
         ++entity;
     }
@@ -110,19 +110,41 @@ void man_entity_forAll(UpdateFunc_t updateFunctionPtr)
 void man_entity_forAllMatchingComponent(UpdateFunc_t updateFunctionPtr, u8 signature)
 {
     Entity_t* entity = _entities;
-    while (entity->type != entityTypeInvalid) {
-        if ((entity->components & signature) == signature) {
+    while (isValid(entity)) {
+        if (signatureMatches(entity, signature)) {
             updateFunctionPtr(entity);
         }
         ++entity;
     }
 }
 
+
+
+void man_entity_forAllPairsMatchingComponent(UpdatePairFunc_t updateFunctionPtr, u8 signature)
+{
+    // Para cada entidad que cumpla la firma, miramos a partir de ella y emparejamos con cada
+    // una de las siguientes que cumplan la firma
+
+    Entity_t* entityLeft = _entities;
+    while (isValid(entityLeft)) {
+        if (signatureMatches(entityLeft, signature)) {
+            Entity_t* entityRight = entityLeft + 1;
+            while (isValid(entityRight)) {
+                if (signatureMatches(entityRight, signature)) {
+                    updateFunctionPtr(entityLeft, entityRight);
+                }
+                ++entityRight;
+            }
+        }
+        ++entityLeft;
+    }
+}
+
 void man_entity_update()
 {
     Entity_t* entity = _entities;
-    while (entity->type != entityTypeInvalid) {
-        if (entity->type & entityTypeDead) {
+    while (isValid(entity)) {
+        if (isDead(entity)) {
             _man_entity_destroy(entity);
         } else {
             ++entity;    

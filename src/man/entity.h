@@ -18,9 +18,15 @@
 #define entityComponentInput 0x04
 #define entityComponentAi 0x08
 #define entityComponentAnimation 0x10
+#define entityComponentCollision 0x20
 #define entityComponentDefault 0x00
 
 #define MAX_ENTITIES 12
+
+// Definimos algunas macros para mejorar la legibilidad del código
+#define isValid(E) ((E)->type != entityTypeInvalid)
+#define isDead(E) ((E)->type & entityTypeDead)
+#define signatureMatches(E, S) (((E)->components & S) == S)
 
 /* Estructuras de datos */
 
@@ -31,8 +37,9 @@ typedef struct AnimFrame_t AnimFrame_t;
 typedef union SpriteOrNextFrame_t SpriteOrNextFrame_t;
 
 // Definimos tipos de punteros a función y sus respectivos alias
-typedef void (*BehaviourFunc_t)(Entity_t *); // En este caso, PtrFunc_t es el alias
-typedef void (*UpdateFunc_t)(Entity_t *); // En este caso, PtrFunc_t es el alias
+typedef void (*BehaviourFunc_t)(Entity_t *); // En este caso, BehaviourFunc_t es el alias
+typedef void (*UpdateFunc_t)(Entity_t *); // En este caso, UpdateFunc_t es el alias
+typedef void (*UpdatePairFunc_t)(Entity_t *, Entity_t*); // En este caso, UpdatePairFunc_t es el alias
 
 // Entidad
 typedef struct Entity_t {
@@ -46,6 +53,7 @@ typedef struct Entity_t {
     u8 aiCounter; // Contador de frames de IA
     AnimFrame_t const * frame; // Puntero al frame de animación actual
     u8 animCounter; // Contador de frames de animación
+    u8 collidesAgainstTypes; // Types contra los que colisiona la entidad
 };
 
 // Animación
@@ -67,5 +75,6 @@ Entity_t* man_entity_clone(Entity_t* entity);
 void man_entity_markForDestruction(Entity_t* entity);
 void man_entity_forAll(UpdateFunc_t updateFunctionPtr);
 void man_entity_forAllMatchingComponent(UpdateFunc_t updateFunctionPtr, u8 signature);
+void man_entity_forAllPairsMatchingComponent(UpdatePairFunc_t updateFunctionPtr, u8 signature);
 void man_entity_update();
 u8 man_entity_freeSpace();
